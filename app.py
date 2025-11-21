@@ -176,8 +176,18 @@ with st.sidebar:
             <small>{sao_info['info']['desc']}</small>
         </div>
         """, unsafe_allow_html=True)
-
+    
+    st.write("---") # Đường kẻ phân cách
     st.caption("© LeNamVN Calendar")
+    
+    # --- BỘ ĐẾM LƯỢT XEM (MỚI THÊM) ---
+    # Sử dụng dịch vụ visitor-badge miễn phí, key là lenamvn.vn để đếm riêng cho web của bạn
+    st.markdown("""
+    <div style="display: flex; align-items: center; gap: 5px; margin-top: 5px; opacity: 0.7;">
+        <small>Lượt truy cập:</small>
+        <img src="https://visitor-badge.laobi.icu/badge?page_id=lenamvn.vn&left_color=gray&right_color=green" alt="visitor count">
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # TABS
@@ -238,15 +248,15 @@ with tab1:
 
 # ================= TAB 2 =================
 with tab2:
-    st.header("🔄 Chuyển đổi ngày Âm lịch - Dương lịch")
+    st.header("🔄 Chuyển đổi Âm - Dương")
     st.caption("Nhập ngày để chuyển đổi và xem chi tiết tốt xấu.")
     
-    type_convert = st.radio("", ["Dương lịch=>Âm lịch", "Âm lịch=>Dương lịch"], horizontal=True)
+    type_convert = st.radio("", ["Dương sang Âm", "Âm sang Dương"], horizontal=True)
     result_date_obj = None 
     
     st.divider()
     
-    if type_convert == "Dương lịch=>Âm lịch":
+    if type_convert == "Dương sang Âm":
         d_in = st.date_input("Ngày Dương:", datetime.now(), format="DD/MM/YYYY", key="d2a")
         if st.button("Chuyển đổi", type="primary"):
             result_date_obj = datetime.combine(d_in, datetime.min.time())
