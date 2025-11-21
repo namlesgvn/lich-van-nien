@@ -238,10 +238,10 @@ with tab1:
 
 # ================= TAB 2 =================
 with tab2:
-    st.header("🔄 Chuyển đổi Âm - Dương")
+    st.header("🔄 Chuyển đổi ngày Âm - Dương")
     st.caption("Nhập ngày để chuyển đổi và xem chi tiết tốt xấu.")
     
-    type_convert = st.radio("", ["Dương sang Âm", "Âm sang Dương"], horizontal=True)
+    type_convert = st.radio("", ["Ngày Dương=>Âm", "Ngày Âm=>Dương"], horizontal=True)
     result_date_obj = None 
     
     st.divider()
