@@ -242,7 +242,6 @@ with tab1:
                     "Tuổi": status,
                     "Giờ Tốt": info['gio_tot'].split(',')[0] + "..."
                 })
-        # DÒNG ĐÃ SỬA: Dùng 'stretch' để thay thế cảnh báo cũ
         st.dataframe(pd.DataFrame(list_days), use_container_width=True)
 
 # ================= TAB 2 =================
@@ -250,5 +249,37 @@ with tab2:
     st.header("🔄 Chuyển đổi Âm - Dương")
     st.caption("Nhập ngày để chuyển đổi và xem chi tiết tốt xấu.")
     
-    # Label visibility collapsed
-    type_convert = st.radio("Chiều chuyển đổi", ["D
+    # --- ĐÃ SỬA LỖI Ở ĐÂY: NGẮT DÒNG ĐỂ TRÁNH LỖI CÚ PHÁP ---
+    type_convert = st.radio(
+        "Chiều chuyển đổi",
+        ["Dương sang Âm", "Âm sang Dương"],
+        horizontal=True,
+        label_visibility="collapsed"
+    )
+    
+    result_date_obj = None 
+    
+    st.divider()
+    
+    if type_convert == "Dương sang Âm":
+        d_in = st.date_input("Ngày Dương:", datetime.now(), format="DD/MM/YYYY", key="d2a")
+        if st.button("Chuyển đổi", type="primary"):
+            result_date_obj = datetime.combine(d_in, datetime.min.time())
+            
+    else:
+        c1, c2, c3, c4 = st.columns([1, 1, 1.5, 1])
+        d_am = c1.number_input("Ngày", 1, 30, 1)
+        m_am = c2.number_input("Tháng", 1, 12, 1)
+        y_am = c3.number_input("Năm", 1900, 2100, datetime.now().year)
+        nhuan = c4.checkbox("Nhuận")
+        
+        if st.button("Chuyển đổi", type="primary"):
+            res = doi_ngay_am_sang_duong(d_am, m_am, y_am, nhuan)
+            if res: result_date_obj = datetime(res['year'], res['month'], res['day'])
+            else: st.error("Ngày Âm lịch không hợp lệ!")
+
+    if result_date_obj:
+        st.success("✅ Kết quả chuyển đổi:")
+        data_cv = phan_tich_ngay(result_date_obj, user_year)
+        render_day_box(data_cv)
+        st.info(f"**Nên làm:** {data_cv['viec_tot']}")
